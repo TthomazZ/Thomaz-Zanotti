@@ -1,0 +1,58 @@
+enable
+configure terminal
+interface vlan1 
+ip address 172.16.2.0 255.255.254.0
+no shutdown
+exit
+interface g0/1
+ip address 172.16.3.254 255.255.254.0
+no shutdown
+exit
+interface serial0/0/1
+ip address 200.18.189.4 255.255.255.252
+no shutdown
+exit
+interface serial0/0/0
+ip address 200.18.189.0 255.255.255.252
+no shutdown
+do wr 
+
+
+
+
+ip route 200.18.189.8  255.255.255.252 200.18.189.4 
+ip route 200.18.189.8  255.255.255.252  200.18.189.0
+
+ip route 200.18.189.4  255.255.255.252 200.200.200.0
+ip route 200.18.189.4  255.255.255.252  200.200.200.8 
+
+ip route 200.18.189.0  255.255.255.252 200.18.189.4
+ip route 200.18.189.0  255.255.255.252 200.18.189.8
+
+
+enable
+configure terminal
+hostname RT-31
+banner motd "APENAS PESSOAS AUTORIZADAS"
+hostname RT-31
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+ip domain-name www.rede3.com.br
+ip domain-name sistema.rede3.com.br
+crypto key generate rsa general-keys modulus 1024
+username thomazzanotti privilege 15 secret zanotti
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login
+login local
+exit
+username thomazzanotti privilege 15 secret zanotti
+service password-encryption
+do wr

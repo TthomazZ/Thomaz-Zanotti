@@ -1,0 +1,28 @@
+enable
+configure terminal
+hostname (SW-CORE-31)
+banner motd "APENAS PESSOAS AUTORIZADAS"
+hostname (SW-CORE-31)
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+ip domain-name (www.rede3.com.br)
+ip domain-name (sistema.rede3.com.br)
+crypto key generate rsa general-keys modulus 1024
+username thomazzanotti privilege 15 secret zanotti
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+transport input ssh
+exec-timeout 10
+login
+login local
+exit
+username thomazzanotti privilege 15 secret zanotti
+service password-encryption
+do wr
+ip default-gateway (ip)
+do wr
